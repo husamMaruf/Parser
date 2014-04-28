@@ -1,6 +1,7 @@
 #ifndef USERDEFINED_TOKENGROUP_H
 #define USERDEFINED_TOKENGROUP_H
 
+
 #include "Token.h"
 
 class UserDefined_TokenGroup :public TokenGroup{

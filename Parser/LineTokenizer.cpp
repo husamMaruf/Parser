@@ -1,5 +1,6 @@
 #include "LineTokenizer.h"
 
+
 //find the group where this symbol is in , and let it create a token with this symbol.
 Token*  LineTokenizer::createToken(const std::string symbol, const int line)const{
 	std::list<PreDefined_TokenGroup*>::const_iterator iter;

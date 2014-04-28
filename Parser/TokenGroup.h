@@ -4,6 +4,7 @@
 #include<list>
 #include <algorithm>
 
+
 class Token;
 
 
