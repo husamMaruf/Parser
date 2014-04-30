@@ -10,7 +10,7 @@
 
 class LineTokenizer{
 public:
-	LineTokenizer(std::list<PreDefined_TokenGroup*const > _pdtg, UserDefined_TokenGroup * _udtg) :
+	LineTokenizer(std::list<PreDefined_TokenGroup* const > _pdtg, UserDefined_TokenGroup * _udtg) :
 		predefined_token_groups(_pdtg), currentLine(0), user_defined_token_group(_udtg){}
 
 	~LineTokenizer(){ /* no need to delete the token groups, they are being deleted by user */ }
@@ -19,7 +19,7 @@ public:
 	int												getCurrentLine()				const { return currentLine;}
 	void											setCurrentLine(const int val)		  { currentLine = val; }
 	const 	UserDefined_TokenGroup*					getUser_defined_token_group()	const { return user_defined_token_group;}
-	const std::list<PreDefined_TokenGroup*const>	getPredefined_token_groups()	const { return predefined_token_groups; }
+	const std::list<PreDefined_TokenGroup*const >	getPredefined_token_groups()	const { return predefined_token_groups; }
 
 	//the primary public method: 
 	std::vector<Token*>								tokenize_line(const std::string line)	const;
@@ -46,7 +46,7 @@ private:
 	LineTokenizer & operator=			(const LineTokenizer& rhs);
 
 	int currentLine;
-	const std::list<PreDefined_TokenGroup*const >	predefined_token_groups;
-	const UserDefined_TokenGroup*const	 			user_defined_token_group;
+	const std::list<PreDefined_TokenGroup* const >			predefined_token_groups;
+	const UserDefined_TokenGroup*const	 					user_defined_token_group;
 };
 #endif

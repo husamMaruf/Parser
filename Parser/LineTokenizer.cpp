@@ -3,7 +3,7 @@
 
 //find the group where this symbol is in , and let it create a token with this symbol.
 Token*  LineTokenizer::createToken(const std::string symbol, const int line)const{
-	std::list<PreDefined_TokenGroup*>::const_iterator iter;
+	std::list<PreDefined_TokenGroup*const >::const_iterator iter;
 
 	for (iter = predefined_token_groups.cbegin(); iter != predefined_token_groups.cend(); ++iter){
 		PreDefined_TokenGroup* group = *iter;
@@ -75,7 +75,8 @@ LineTokenizer::result  LineTokenizer::get_next_predefined(const std::string word
 										//and are candidates to be the next token. the result will be 
 										//the token with the biggest length from this set (the last element)
 
-	std::list<PreDefined_TokenGroup*>::const_iterator group_iter;
+	std::list<PreDefined_TokenGroup*const >::const_iterator group_iter;
+
 	for (group_iter = predefined_token_groups.cbegin(); group_iter != predefined_token_groups.cend(); ++group_iter){
 		PreDefined_TokenGroup * group = *group_iter;
 		std::list<std::string> known_symbols = group->get_known_symbols();

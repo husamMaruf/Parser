@@ -10,14 +10,19 @@
 using namespace std;
 int main(){
 
-	std::list<std::string> _operators = { "+", "-", "++", "--" };
-	std::list<std::string> _types = { "int", "short", "long", "double", "float", "bool" };
+	std::list<std::string> _operators;// = { "+", "-", "++", "--" };
+	_operators.push_back("+");
+	_operators.push_back("++");
+
+
+	std::list<std::string> _types;// = { "int", "short", "long", "double", "float", "bool" };
+	_types.push_back("int");
 
 	//create predefined token groups list :
 	TokenGroup_Operators operators(_operators);
 	TokenGroup_VarTypes types(_types);
 
-	std::list<PreDefined_TokenGroup*const > pdtg;
+	std::list<PreDefined_TokenGroup* const > pdtg;
 	pdtg.push_front(&operators);
 	pdtg.push_front(&types);
 
@@ -36,11 +41,20 @@ int main(){
 	//use the tokenizer:
 	vector<Token*> result;
 
-	string example = "int x ++kkk+++ jjj+++mmm++";
-	result = tk.tokenize_line(example);	//<-use debugger to see the result 
-	cout << result.size();
 
-	//result.back()->process();
+	
+
+	string example = "int x ++kkk+++ jjj+++mmm++";
+
+	result = tk.tokenize_line(example);	//<-use debugger to see the result 
+
+	vector<Token*>::const_iterator it = result.cbegin();
+
+	while (it != result.cend()){
+
+		cout << "symbol=\t" << (*it)->getSymbol() << "\tpointer to token group=\t" << (*it)->getTokenGroup() <<"\t\n" ;
+		it++;
+	}
 
 
 	//delete  the Tokens
