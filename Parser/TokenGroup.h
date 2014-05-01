@@ -11,7 +11,7 @@ class Token;
 
 
 class TokenGroup{
-public:
+public: 
 	TokenGroup(){}
 	virtual					~TokenGroup(){}
 
