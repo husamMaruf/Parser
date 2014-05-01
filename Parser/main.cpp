@@ -12,12 +12,12 @@ int main(){
 
 
 
-	std::list<std::string> _operators;// = { "+", "-", "++", "--" };
+	std::list<std::string> _operators;
 	_operators.push_back("+");
 	_operators.push_back("++");
 
 
-	std::list<std::string> _types;// = { "int", "short", "long", "double", "float", "bool" };
+	std::list<std::string> _types;
 	_types.push_back("int");
 
 	//create predefined token groups list :

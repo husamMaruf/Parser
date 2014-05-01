@@ -18,7 +18,7 @@ public:
 };
 
 void Parser::parseFile(std::string file_name){
-	Context *c = new Context(ltokenizer.getUser_defined_token_group(), ltokenizer.getPredefined_token_groups());
+	Context *c = new Context();
 
 	std::ifstream file("example.txt");
 	std::string str;
