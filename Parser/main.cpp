@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include<stdlib.h>
 #include "parser.h"
@@ -44,30 +43,30 @@ int main(){
 	vector<Token*> result;
 
 	result = tk.tokenize_file("example.txt");
-	
+
 	/*
 	string example = "int x ++kkk+++ jjj+++mmm++";
 
-	result = tk.tokenize_line(example);	//<-use debugger to see the result 
+	result = tk.tokenize_line(example); //<-use debugger to see the result
 
 	vector<Token*>::const_iterator it = result.cbegin();
 
 	while (it != result.cend()){
 
-		cout << "symbol=\t" << (*it)->getSymbol() << "\tpointer to token group=\t" << (*it)->getTokenGroup() <<"\t\n" ;
-		it++;
+	cout << "symbol=\t" << (*it)->getSymbol() << "\tpointer to token group=\t" << (*it)->getTokenGroup() <<"\t\n" ;
+	it++;
 	}
 	*/
 
-//	now using Parser:
-	Parser p(pdtg,&udtg);
-	p.parseFile("example.txt");
+	// now using Parser:
+	//Parser p(pdtg, &udtg);
+	//p.parseFile("example.txt");
 
 
 
 	//delete  the Tokens
 	vector<Token*>::iterator iter = result.begin();
-	while (iter != result.end()){delete(*iter++);}
+	while (iter != result.end()){ delete(*iter++); }
 
 
 	int x;

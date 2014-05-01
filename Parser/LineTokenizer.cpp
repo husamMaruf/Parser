@@ -1,11 +1,13 @@
 #include "LineTokenizer.h"
 #include <fstream>
+#include "analyzer.h"
 
 
 //find the group where this symbol is in , and let it create a token with this symbol.
 Token*  LineTokenizer::createToken(const std::string symbol, const int line)const{
 	std::list<PreDefined_TokenGroup*const >::const_iterator iter;
 
+	/*
 	for (iter = predefined_token_groups.cbegin(); iter != predefined_token_groups.cend(); ++iter){
 		PreDefined_TokenGroup* group = *iter;
 
@@ -14,13 +16,17 @@ Token*  LineTokenizer::createToken(const std::string symbol, const int line)cons
 			return tok;
 	}
 	return NULL;
+	*/
+
+	return new Token(line, symbol, NULL);
+
 }
 
 std::vector<Token*> LineTokenizer::tokenize_line(const std::string line)const {
 	std::vector<Token*> res;
 
 	std::size_t prev = 0, pos;
-	
+
 	//split line to words, with delimiters 'tab' and 'space', then split each word to tokens and add to result
 	while ((pos = line.find_first_of("\t ", prev)) != std::string::npos)
 	{
@@ -31,7 +37,7 @@ std::vector<Token*> LineTokenizer::tokenize_line(const std::string line)const {
 		prev = pos + 1;
 	}
 	if (prev < line.length()){
-		std::vector<Token*> tmp = tokenize_word(line.substr(prev, std::string::npos)); 
+		std::vector<Token*> tmp = tokenize_word(line.substr(prev, std::string::npos));
 		res.insert(res.end(), tmp.begin(), tmp.end());
 	}
 
@@ -52,7 +58,7 @@ std::vector<Token*> LineTokenizer::tokenize_word(const std::string word)const{
 		return temp;
 	}
 
-	//insert next token to list 
+	//insert next token to list
 	temp.push_back(next_predefined_tok.token);
 
 	//append tokens after the next token;
@@ -67,26 +73,30 @@ std::vector<Token*> LineTokenizer::tokenize_word(const std::string word)const{
 	return result;
 }
 
-//returns the next predefined token in a word , with its position and length 
+//returns the next predefined token in a word , with its position and length
 LineTokenizer::result  LineTokenizer::get_next_predefined(const std::string word)const{
 
-	int minpos = word.length() + 1;		//holds the earliest position where a predefined token starts
+	int minpos = word.length() + 1; //holds the earliest position where a predefined token starts
 
-	std::set<int> canditates_sizes;		//an ordered set. holds lengths of tokens that start at minpos,
-										//and are candidates to be the next token. the result will be 
-										//the token with the biggest length from this set (the last element)
+	std::set<int> canditates_sizes; //an ordered set. holds lengths of tokens that start at minpos,
+	//and are candidates to be the next token. the result will be
+	//the token with the biggest length from this set (the last element)
 
-	std::list<PreDefined_TokenGroup*const >::const_iterator group_iter;
+	//std::list<PreDefined_TokenGroup*const >::const_iterator group_iter;
 
-	for (group_iter = predefined_token_groups.cbegin(); group_iter != predefined_token_groups.cend(); ++group_iter){
-		PreDefined_TokenGroup * group = *group_iter;
-		std::list<std::string> known_symbols = group->get_known_symbols();
+	
+	//for (group_iter = predefined_token_groups.cbegin(); group_iter != predefined_token_groups.cend(); ++group_iter){
+	//	PreDefined_TokenGroup * group = *group_iter;
+	//	std::list<std::string> known_symbols = group->get_known_symbols();
 
 		//for each symbol in each predefined token group
-		std::list<std::string>::const_iterator symbol_iter;
-		for (symbol_iter = known_symbols.cbegin(); symbol_iter != known_symbols.cend(); ++symbol_iter){
+		//std::list<std::string>::const_iterator symbol_iter;
+		//for (symbol_iter = known_symbols.cbegin(); symbol_iter != known_symbols.cend(); ++symbol_iter){
 
-			// check if word contains it 
+	std::vector<std::string>::const_iterator symbol_iter;
+	for (symbol_iter=tokensList.cbegin();symbol_iter!=tokensList.cend();symbol_iter++)
+	{
+			// check if word contains it
 			int pos = word.find(*symbol_iter, 0);
 
 			if (pos != std::string::npos){
@@ -103,7 +113,7 @@ LineTokenizer::result  LineTokenizer::get_next_predefined(const std::string word
 				}
 			}
 		}
-	}
+	
 	return create_result_from(minpos, word, canditates_sizes);
 }
 
@@ -123,31 +133,48 @@ create_result_from(const int minpos, const std::string word, const std::set<int>
 
 	//from all candidates , return the longest token
 	res.position = minpos;
-	res.length = *canditates_sizes.rbegin();//last element in set is the biggest 
+	res.length = *canditates_sizes.rbegin();//last element in set is the biggest
 	res.token = createToken(word.substr(res.position, res.length), currentLine);
 	return res;
 }
 
 
+void LineTokenizer::addTokens(const std::string words[], const int size)
+{
+	for (int i = 0; i < size; i++)
+	{
+		tokensList.push_back(words[i]);
+	}
+}
+
 
 std::vector<Token*>LineTokenizer::tokenize_file(const std::string file_name){
 
 	std::ifstream file(file_name);
-	
-	
+
+
 	/*
 	TODO:
 	check if  file exists
 	*/
 
+	Analyzer  a;
 
 	std::string str;
 	std::vector<Token*> tokens_in_line;
 	std::vector<Token*> tokens_in_file;
 
+	// make List of the tokens
+	addTokens(types, 8);
+	addTokens(keywords1, 5);
+	addTokens(keywords2, 7);
+	addTokens(operators, 11);
+	addTokens(delimiter, 16);
+
 	while (std::getline(file, str))
 	{
 		tokens_in_line = tokenize_line(str);
+		a.analyze(tokens_in_line, tokensList); // add break poit here to the tokens
 		tokens_in_file.insert(tokens_in_file.end(), tokens_in_line.begin(), tokens_in_line.end());
 		currentLine++;
 	}
