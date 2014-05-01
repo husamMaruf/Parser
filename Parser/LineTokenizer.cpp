@@ -1,4 +1,5 @@
 #include "LineTokenizer.h"
+#include <fstream>
 
 
 //find the group where this symbol is in , and let it create a token with this symbol.
@@ -125,4 +126,32 @@ create_result_from(const int minpos, const std::string word, const std::set<int>
 	res.length = *canditates_sizes.rbegin();//last element in set is the biggest 
 	res.token = createToken(word.substr(res.position, res.length), currentLine);
 	return res;
+}
+
+
+
+std::vector<Token*>LineTokenizer::tokenize_file(const std::string file_name){
+
+	std::ifstream file(file_name);
+	
+	
+	/*
+	TODO:
+	check if  file exists
+	*/
+
+
+	std::string str;
+	std::vector<Token*> tokens_in_line;
+	std::vector<Token*> tokens_in_file;
+
+	while (std::getline(file, str))
+	{
+		tokens_in_line = tokenize_line(str);
+		tokens_in_file.insert(tokens_in_file.end(), tokens_in_line.begin(), tokens_in_line.end());
+		currentLine++;
+	}
+
+	return tokens_in_file;
+
 }

@@ -11,7 +11,7 @@
 class LineTokenizer{
 public:
 	LineTokenizer(std::list<PreDefined_TokenGroup* const > _pdtg, UserDefined_TokenGroup * _udtg) :
-		predefined_token_groups(_pdtg), currentLine(0), user_defined_token_group(_udtg){}
+		predefined_token_groups(_pdtg), currentLine(1), user_defined_token_group(_udtg){}
 
 	~LineTokenizer(){ /* no need to delete the token groups, they are being deleted by user */ }
 
@@ -22,8 +22,8 @@ public:
 	const std::list<PreDefined_TokenGroup*const >	getPredefined_token_groups()	const { return predefined_token_groups; }
 
 	//the primary public method: 
-	std::vector<Token*>								tokenize_line(const std::string line)	const;
-
+	std::vector<Token*>								tokenize_line(const std::string line)		const;
+	std::vector<Token*>								tokenize_file(const std::string file_name);
 
 protected:
 	struct result{									//used by get_next_predefined()

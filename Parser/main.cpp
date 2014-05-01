@@ -10,6 +10,8 @@
 using namespace std;
 int main(){
 
+
+
 	std::list<std::string> _operators;// = { "+", "-", "++", "--" };
 	_operators.push_back("+");
 	_operators.push_back("++");
@@ -41,9 +43,9 @@ int main(){
 	//use the tokenizer:
 	vector<Token*> result;
 
-
+	result = tk.tokenize_file("example.txt");
 	
-
+	/*
 	string example = "int x ++kkk+++ jjj+++mmm++";
 
 	result = tk.tokenize_line(example);	//<-use debugger to see the result 
@@ -55,11 +57,11 @@ int main(){
 		cout << "symbol=\t" << (*it)->getSymbol() << "\tpointer to token group=\t" << (*it)->getTokenGroup() <<"\t\n" ;
 		it++;
 	}
-
+	*/
 
 	//now using Parser:
-	Parser p(pdtg,&udtg);
-	p.parseFile("example.txt");
+	//Parser p(pdtg,&udtg);
+	//p.parseFile("example.txt");
 
 
 
