@@ -17,8 +17,12 @@ public:
 	TokenGroup_Operators(std::list<std::string> known_symbols) :
 		PreDefined_TokenGroup(known_symbols){}
 
-	void process(const Token& T /*add parameters*/)const {
-		// TODO: implement 
+	void process(const Token& T ,Context *c)const {
+		if (c->prev_tok != NULL && c->prev_tok->getTokenGroup() == this){
+			std::string prev_operator = c->prev_tok->getSymbol();
+			std::cout <<c->currentLine<<": " << "error , illegal operator: " 
+				<<prev_operator<<T.getSymbol()  << std::endl << std::endl;
+		}
 	}
 
 	using PreDefined_TokenGroup::isInGroup;
@@ -46,8 +50,10 @@ public:
 	TokenGroup_VarTypes(std::list<std::string> known_symbols) :
 		PreDefined_TokenGroup(known_symbols){}
 
-	void process(const Token& T  /*add parameters*/ )const {
-		// TODO: implement 
+	void process(const Token& T ,Context *c)const {
+		if (c->prev_tok!= NULL && c->prev_tok->getTokenGroup()==this){
+			std::cout << c->currentLine << ": " << "error , cant write type after type" << std::endl << std::endl;
+		}
 	}
 
 	using PreDefined_TokenGroup::isInGroup;

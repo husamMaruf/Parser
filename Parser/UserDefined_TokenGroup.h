@@ -9,7 +9,7 @@ public:
 	UserDefined_TokenGroup(){}
 	~UserDefined_TokenGroup(){}
 
-	void process(const Token& T /*add parameters */)const {
+	void process(const Token& T, Context *c)const {
 		// TODO: implement 
 	}
 

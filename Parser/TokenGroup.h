@@ -4,7 +4,7 @@
 #include<list>
 #include <algorithm>
 
-
+struct Context;
 class Token;
 
 
@@ -18,7 +18,7 @@ public:
 	//each token group should implement these methods:
 
 	//this method specifies how the parser should verify tokens from this group
-	virtual void		process(const Token &T /*add parameters*/) const = 0;	
+	virtual void		process(const Token &T ,Context *c) const = 0;	
 
 	//create a token from the given symbol , with token_group = the current group.
 	virtual Token*	createToken(const int line, const std::string symbol)const  = 0;

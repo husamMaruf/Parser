@@ -59,9 +59,9 @@ int main(){
 	}
 	*/
 
-	//now using Parser:
-	//Parser p(pdtg,&udtg);
-	//p.parseFile("example.txt");
+//	now using Parser:
+	Parser p(pdtg,&udtg);
+	p.parseFile("example.txt");
 
 
 

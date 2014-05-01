@@ -8,6 +8,7 @@
 #include "PreDefined_TokenGroup.h"
 #include "UserDefined_TokenGroup.h"
 
+
 class LineTokenizer{
 public:
 	LineTokenizer(std::list<PreDefined_TokenGroup* const > _pdtg, UserDefined_TokenGroup * _udtg) :

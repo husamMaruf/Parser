@@ -3,6 +3,7 @@
 
 #include<string>
 #include "TokenGroup.h"
+#include "Context.h"
 
 class Token{
 private:
@@ -23,6 +24,6 @@ public:
 	const	TokenGroup* const	getTokenGroup()	const	{ return token_group; }
 	std::string					getSymbol()		const	{ return this->symbol; }
 	int							getLine()		const	{ return line; }
-	void						process(/*add parameters*/)		const	{ token_group->process(*this);}
+	void						process(Context *c)		const	{ token_group->process(*this,c);}
 };
 #endif
