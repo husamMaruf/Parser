@@ -1,0 +1,8 @@
+main(){
+
+int i;
+int j;
+
+i=i++;
+j=i++;
+}
