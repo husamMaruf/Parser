@@ -1,7 +1,7 @@
 
 #include <iostream>
 #include<stdlib.h>
-#include "LineTokenizer.h"
+#include "parser.h"
 #include "predefined.h"
 //#include <vld.h>
 
@@ -55,6 +55,12 @@ int main(){
 		cout << "symbol=\t" << (*it)->getSymbol() << "\tpointer to token group=\t" << (*it)->getTokenGroup() <<"\t\n" ;
 		it++;
 	}
+
+
+	//now using Parser:
+	Parser p(pdtg,&udtg);
+	p.parseFile("example.txt");
+
 
 
 	//delete  the Tokens
