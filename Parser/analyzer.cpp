@@ -1,5 +1,9 @@
 #include "analyzer.h"
+
+#include<iostream>
 #include <iomanip>
+
+using namespace std;
 
 Analyzer::Analyzer() :
 
@@ -137,7 +141,7 @@ void Analyzer::checkBalancedIfElse(std::string str, int line){
 	}
 }
 
-void Analyzer::checkIfDoubleType(std::string str, int line, vector<std::string>& tokensList){
+void Analyzer::checkIfDoubleType(std::string str, int line, const  vector<std::string>& tokensList){
 	if (isToken(str, tokensList) && m_lastWasType) {
 		printError(line);
 		cout << "multiple type" << endl;
@@ -145,7 +149,7 @@ void Analyzer::checkIfDoubleType(std::string str, int line, vector<std::string>&
 
 }
 
-void Analyzer::checkIfUndeclaredVar(std::string str, int line, vector<std::string>& tokensList){
+void Analyzer::checkIfUndeclaredVar(std::string str, int line, const vector<std::string>& tokensList){
 	if (!isToken(str, tokensList) && !isNum(str) && vars.find(str) == vars.end()) {
 		printError(line);
 		cout << "'" << str << "' isn't declared" << endl;
@@ -153,7 +157,7 @@ void Analyzer::checkIfUndeclaredVar(std::string str, int line, vector<std::strin
 }
 
 // add new variables if they haven't already defined
-void Analyzer::checkAddVar(std::string str, int line, vector<std::string>& tokensList){
+void Analyzer::checkAddVar(std::string str, int line, const  vector<std::string>& tokensList){
 	if (!isToken(str, tokensList) && m_lastWasType) { // declaration of variable
 		if (vars.find(str) == vars.end()) { // check if is in var list
 			vars[str] = m_lastType;
@@ -169,7 +173,7 @@ void Analyzer::checkAddVar(std::string str, int line, vector<std::string>& token
 	}
 }
 
-bool Analyzer::analyze(vector<Token*>& tokens, vector<std::string>& tokensList)
+bool Analyzer::analyze(vector<Token*>& tokens, const vector<std::string>& tokensList)
 {
 	vector<Token*>::const_iterator it = tokens.cbegin();
 	while (it != tokens.cend()){

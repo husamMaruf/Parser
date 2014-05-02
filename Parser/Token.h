@@ -14,9 +14,10 @@ private:
 
 public:
 	Token(const int _line, const std::string _symbol) :
-		line(_line), symbol(_symbol){}
+		line(_line), 
+		symbol(_symbol){}
 
-	~Token(){/* no need to delete token_group because it already gets deleted by user */ }
+	~Token(){}
 
 	std::string					getSymbol()		const	{ return this->symbol; }
 	int							getLine()		const	{ return line; }

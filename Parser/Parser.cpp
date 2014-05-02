@@ -1,9 +1,9 @@
 #include "Parser.h"
 #include <fstream>
 #include "analyzer.h"
+#include <iostream>
 
-
-
+using namespace std;
 std::vector<Token*> Parser::tokenize_line(const std::string line)const {
 	std::vector<Token*> res;
 
@@ -131,7 +131,5 @@ void Parser::parse_file(const std::string file_name){
 	//delete  the Tokens
 	vector<Token*>::iterator iter = tokens_in_file.begin();
 	while (iter != tokens_in_file.end()){ delete(*iter++); }
-
-
-
 }
+

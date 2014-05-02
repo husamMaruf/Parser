@@ -2,7 +2,7 @@
 #include<stdlib.h>
 #include "parser.h"
 #include "predefinedTokens.h"
-//#include <vld.h>
+#include <vld.h>
 
 
 void addTokens(std::vector<std::string> vec,const std::string words[], const int size)
@@ -19,11 +19,11 @@ int main(){
 
 	std::vector<std::string> predefined_tokens;
 
-	addTokens(predefined_tokens,types, 8);
-	addTokens(predefined_tokens,keywords1, 5);
-	addTokens(predefined_tokens,keywords2, 7);
-	addTokens(predefined_tokens,operators, 11);
-	addTokens(predefined_tokens,delimiter, 17);
+	addTokens(predefined_tokens,types, types_size);
+	addTokens(predefined_tokens,keywords1, keywords1_size);
+	addTokens(predefined_tokens,keywords2, keywords2_size);
+	addTokens(predefined_tokens,operators,operators_size);
+	addTokens(predefined_tokens,delimiter, delimiters_size);
 
 
 	Parser p(predefined_tokens);
