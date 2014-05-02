@@ -7,7 +7,7 @@ static std::string types[] = { "char", "short", "int", "long", "float", "double"
 static std::string keywords1[] = { "if", "else", "for", "while" };
 static std::string keywords2[] = { "class", "private", "public", "protected", "main", "const", "virtual" };
 static std::string operators[] = { "++", "--", "==", "->", "=", "+", "-", "*", "&", "<<", ">>" };
-static std::string delimiter[] = { "\t", " ", "(", ")", "[", "]", "{", "}", ";", "<", ">", "=", "+", "-", "*", "&" };
+static std::string delimiter[] = { "\t", " ", "(", ")", "[", "]", "{", "}", ";", "<", ">", "=", "+", "-", "*", "&", "," };
 
 
 #endif

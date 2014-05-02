@@ -1,50 +1,41 @@
+#ifndef LINETOKENIZER_H
+#define LINETOKENIZER_H
 
-#include "LineTokenizer.h"
-#include <fstream>
-#include <iostream>
+#include<vector>
+#include<set>
+
+#include "Token.h"
 
 class Parser{
-private:
-	LineTokenizer ltokenizer;
-
 public:
+	Parser():
+		currentLine(1)
+	{}
 
-	Parser(std::list<PreDefined_TokenGroup* const > _pdtg, UserDefined_TokenGroup * _udtg) :
-		ltokenizer(_pdtg, _udtg){}
+	~Parser(){ /* no need to delete the token groups, they are being deleted by user */ }
 
-		void parseFile(std::string file_name);
+	//the primary public method:
+	std::vector<Token*> parse_file(const std::string file_name);
 
+private:
+
+	struct result{ //used by get_next_predefined()
+		Token* token;
+		int position;
+		int length;
+	};
+
+	result get_next_predefined(const std::string word) const;
+
+	std::vector<Token*> tokenize_line(const std::string line) const;
+	std::vector<Token*> tokenize_word(const std::string word) const;
+	void addTokens(const std::string words[], const int size);
+	std::vector<std::string> tokensList;
+
+	Parser(const Parser& other);
+	Parser & operator= (const Parser& rhs);
+
+	int currentLine;
 
 };
-
-void Parser::parseFile(std::string file_name){
-	Context *c = new Context();
-
-	std::ifstream file("example.txt");
-	std::string str;
-	std::vector<Token*> tokens_in_line;
-	while (std::getline(file, str))
-	{
-		std::cout <<"processing line:\t"<< str<<std::endl;
-
-
-		 tokens_in_line=ltokenizer.tokenize_line(str);
-
-		std::vector<Token*>::iterator current_tok = tokens_in_line.begin();
-		while (current_tok != tokens_in_line.end()){
-			(*current_tok)->process(c); 
-			c->prev_tok = *current_tok;
-			
-			current_tok++;
-			
-		}
-		c->currentLine++;
-	}
-
-	//delete context
-	delete c;
-
-	//delete tokens_in_line
-	std::vector<Token*>::iterator iter = tokens_in_line.begin();
-	while (iter != tokens_in_line.end()){ delete(*iter++); }
-}
+#endif
