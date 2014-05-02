@@ -221,7 +221,7 @@ bool Analyzer::analyze(vector<Token*>& tokens, const vector<std::string>& tokens
 		// check if double operators
 		if (m_lastWasOperator && isOperator((*it)->getSymbol())){
 			printError((*it)->getLine());
-			cout << "illegal operator '" << m_lastWasOperator << (*it)->getSymbol() << "'" << endl;
+			cout << "illegal operator '" << m_lastOperator << (*it)->getSymbol() << "'" << endl;
 		}
 
 		//check if the the string is operator
