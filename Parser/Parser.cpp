@@ -3,6 +3,7 @@
 #include "analyzer.h"
 #include <iostream>
 
+
 using namespace std;
 std::vector<Token*> Parser::tokenize_line(const std::string line)const {
 	std::vector<Token*> res;
