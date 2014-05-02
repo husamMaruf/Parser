@@ -12,25 +12,19 @@ class Analyzer
 {
 private:
 	std::map<std::string, std::string> vars;
-	int m_ifelse;
-	int m_numOfPar;
-	int m_numOfBrace;
-	int m_numOfBrak;
-	bool m_lastWasType;
-	std::string m_lastType;
-	bool firstUnNullLine;
-	bool m_lastDec;
-	// if found error on parenthesis don't keep checking for errors
-	bool m_checkPar[3];
+	int m_ifelse; int m_numOfPar; int m_numOfBrace;
+	int m_numOfBrak; bool m_lastWasType;
+	std::string m_lastType;  std::string m_lastOperator;
+	bool firstUnNullLine;  bool m_lastDec; bool m_lastWasOperator;
+	bool m_checkPar[3]; // if found error on parenthesis don't keep checking for errors
 	bool m_noErrors;
 
 	void printError(int line);
-	virtual bool isType(const std::string& str) const;
-	bool Analyzer::isToken(const std::string& str, const std::vector<std::string>& tokens) const;
-	virtual bool isAlpha(const char ch) const;
-	virtual bool isOperator(const std::string& str) const;
-	bool isNum(const char ch) const;
-	bool isNum(const std::string& st) const;
+	//bool isType(const std::string& str) const;
+	//bool isToken(const std::string& str, const std::vector<std::string>& tokens) const;
+	//bool isOperator(const std::string& str) const;
+	//bool isNum(const char ch) const;
+	//bool isNum(const std::string& st) const;
 	void checkBalancedIfElse(std::string str, int line);
 	void checkIfBrackets(std::string str, int line);
 	void checkIfDoubleType(std::string str, int line, const std::vector<std::string>& tokensList);
@@ -41,9 +35,8 @@ protected:
 public:
 	Analyzer();
 	virtual ~Analyzer();
-	const std::map<std::string, std::string>& getVars() const { return vars; }//<--not used anywhere
 	bool analyze(std::vector<Token*>& tokens, const std::vector<std::string>& tokensList);
-	bool getNoErrors() const { return m_noErrors; }// <-- not used 
+	void progEndCheckBrackets(int line);
 };
 
 #endif

@@ -12,6 +12,8 @@ m_numOfPar(0),
 m_numOfBrace(0),
 m_numOfBrak(0),
 m_lastWasType(false),
+m_lastWasOperator(false),
+m_lastOperator("op"),
 m_lastType("Undefined"),
 firstUnNullLine(true),
 m_lastDec(false),
@@ -31,7 +33,7 @@ void Analyzer::printError(int line)
 	cout << "Line " << line << ": error, ";
 }
 
-bool Analyzer::isType(const string& str) const
+static bool isType(const string& str) 
 {
 	for (int i = 0; i < 8; i++)
 	{
@@ -43,7 +45,7 @@ bool Analyzer::isType(const string& str) const
 	return false;
 }
 
-bool Analyzer::isToken(const string& str, const vector<string>& tokens) const {
+static bool isToken(const string& str, const vector<string>& tokens)  {
 	for (unsigned int i = 0; i < tokens.size(); i++) {
 		if (tokens[i] == str) {
 			return true;
@@ -52,16 +54,12 @@ bool Analyzer::isToken(const string& str, const vector<string>& tokens) const {
 	return false;
 }
 
-bool Analyzer::isAlpha(const char ch) const {
-	return ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z'));
-}
-
-bool Analyzer::isNum(const char ch) const {
+static bool isNum(const char ch)  {
 	return (ch >= '0' && ch <= '9');
 }
 
 // check if the token string is a number
-bool Analyzer::isNum(const string& st) const {
+static bool isNum(const string& st)  {
 	int numOfDots = 0;
 	for (unsigned int i = 0; i < st.length(); i++) {
 		if (st.at(i) == '.') {
@@ -78,7 +76,7 @@ bool Analyzer::isNum(const string& st) const {
 }
 
 // check if the given string is operator
-bool Analyzer::isOperator(const string& str) const {
+static bool isOperator(const string& str) {
 	for (unsigned int i = 0; i < 11; i++) {
 		if (operators[i] == str) {
 			return true;
@@ -173,6 +171,24 @@ void Analyzer::checkAddVar(std::string str, int line, const  vector<std::string>
 	}
 }
 
+void Analyzer::progEndCheckBrackets(int line){
+	if (m_numOfBrace > 0){
+		printError(line);
+		cout << m_numOfBrace << " '{' not closed" << endl;
+	}
+
+	if (m_numOfBrak > 0){
+		printError(line);
+		cout << m_numOfBrak << " '[' not closed" << endl;
+	}
+
+	if (m_numOfPar > 0){
+		printError(line);
+		cout << m_numOfPar << " '(' not closed" << endl;
+	}
+}
+
+
 bool Analyzer::analyze(vector<Token*>& tokens, const vector<std::string>& tokensList)
 {
 	vector<Token*>::const_iterator it = tokens.cbegin();
@@ -201,6 +217,20 @@ bool Analyzer::analyze(vector<Token*>& tokens, const vector<std::string>& tokens
 
 		// check if double type
 		checkIfDoubleType((*it)->getSymbol(), (*it)->getLine(), tokensList);
+
+		// check if double operators
+		if (m_lastWasOperator && isOperator((*it)->getSymbol())){
+			printError((*it)->getLine());
+			cout << "illegal operator '" << m_lastWasOperator << (*it)->getSymbol() << "'" << endl;
+		}
+
+		//check if the the string is operator
+		if (isOperator((*it)->getSymbol())){
+			m_lastWasOperator = true;
+			m_lastOperator = (*it)->getSymbol();
+		}
+		else
+			m_lastWasOperator = false;
 
 		// check if the declaration is like int a,b...
 		if (m_lastDec && ((*it)->getSymbol() == ",")) {

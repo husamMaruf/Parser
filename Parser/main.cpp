@@ -5,7 +5,7 @@
 //#include <vld.h>
 
 
-void addTokens(std::vector<std::string> vec, const std::string words[], const int size)
+void addTokens(std::vector<std::string>& vec, const std::string words[], const int size)
 {
 	for (int i = 0; i < size; i++)
 	{
@@ -16,6 +16,9 @@ void addTokens(std::vector<std::string> vec, const std::string words[], const in
 
 using namespace std;
 int main(){
+
+	bool cont = true;
+	std::string flag = "";
 
 	std::vector<std::string> predefined_tokens;
 
@@ -29,8 +32,13 @@ int main(){
 	Parser p(predefined_tokens);
 	p.parse_file("example.txt");
 
-	int x;
-	cin >> x;
-
+	while (cont){
+		cout << "*** press q then hit Enter to exit ****" << endl;
+		cin >> flag;
+		cout << endl;
+		if (flag == "q"){
+			exit(1);
+		}
+	}
 
 }

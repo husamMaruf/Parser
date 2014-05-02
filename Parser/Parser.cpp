@@ -109,7 +109,7 @@ void Parser::parse_file(const std::string file_name){
 	}
 
 	Analyzer  a;
-	int errorsNum = 0;
+	bool err = true;
 
 	std::string str;
 	std::vector<Token*> tokens_in_line;
@@ -119,18 +119,18 @@ void Parser::parse_file(const std::string file_name){
 	while (std::getline(file, str))
 	{
 		tokens_in_line = tokenize_line(str);
-		errorsNum += a.analyze(tokens_in_line, tokensList);
+		err = a.analyze(tokens_in_line, tokensList) || err;
 		tokens_in_file.insert(tokens_in_file.end(), tokens_in_line.begin(), tokens_in_line.end());
 		currentLine++;
 	}
 
+	a.progEndCheckBrackets(currentLine-1);
 
-	cout <<endl<< "file "<< file_name<<" contained " << tokens_in_file.size() 
-		<< " tokens and " << currentLine <<" lines" <<endl;
+	cout << endl << "file " << file_name << " contained " << tokens_in_file.size()
+		<< " tokens and " << currentLine -1<< " lines" << endl;
 
 
 	//delete  the Tokens
 	vector<Token*>::iterator iter = tokens_in_file.begin();
 	while (iter != tokens_in_file.end()){ delete(*iter++); }
 }
-
