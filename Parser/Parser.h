@@ -8,18 +8,19 @@
 
 class Parser{
 public:
-	Parser():
+	Parser(std::vector<std::string> predefined_tokens) :
+		tokensList(predefined_tokens),
 		currentLine(1)
 	{}
 
 	~Parser(){ /* no need to delete the token groups, they are being deleted by user */ }
 
 	//the primary public method:
-	std::vector<Token*> parse_file(const std::string file_name);
+	void parse_file(const std::string file_name);
 
 private:
 
-	struct result{ //used by get_next_predefined()
+	struct result{										 //used by get_next_predefined()
 		Token* token;
 		int position;
 		int length;
@@ -29,7 +30,6 @@ private:
 
 	std::vector<Token*> tokenize_line(const std::string line) const;
 	std::vector<Token*> tokenize_word(const std::string word) const;
-	void addTokens(const std::string words[], const int size);
 	std::vector<std::string> tokensList;
 
 	Parser(const Parser& other);

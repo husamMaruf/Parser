@@ -96,24 +96,16 @@ Parser::result  Parser::get_next_predefined(const std::string word)const{
 }
 
 
-void Parser::addTokens(const std::string words[], const int size)
-{
-	for (int i = 0; i < size; i++)
-	{
-		tokensList.push_back(words[i]);
-	}
-}
 
 
-std::vector<Token*>Parser::parse_file(const std::string file_name){
+void Parser::parse_file(const std::string file_name){
 
 	std::ifstream file(file_name);
 
-
-	/*
-	TODO:
-	check if  file exists
-	*/
+	if (!file.good()){
+		cout << "cannot open file " << file_name << endl;
+		return;
+	}
 
 	Analyzer  a;
 	int errorsNum = 0;
@@ -122,12 +114,6 @@ std::vector<Token*>Parser::parse_file(const std::string file_name){
 	std::vector<Token*> tokens_in_line;
 	std::vector<Token*> tokens_in_file;
 
-	// make List of the tokens
-	addTokens(types, 8);
-	addTokens(keywords1, 5);
-	addTokens(keywords2, 7);
-	addTokens(operators, 11);
-	addTokens(delimiter, 17);
 
 	while (std::getline(file, str))
 	{
@@ -137,6 +123,15 @@ std::vector<Token*>Parser::parse_file(const std::string file_name){
 		currentLine++;
 	}
 
-	return tokens_in_file;
+
+	cout <<endl<< "file "<< file_name<<" contained " << tokens_in_file.size() 
+		<< " tokens and " << currentLine <<" lines" <<endl;
+
+
+	//delete  the Tokens
+	vector<Token*>::iterator iter = tokens_in_file.begin();
+	while (iter != tokens_in_file.end()){ delete(*iter++); }
+
+
 
 }
